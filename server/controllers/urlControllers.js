@@ -63,4 +63,4 @@ async function handeGetAllUrl(req, res) {
   }
 }
 
-export { handelgeneratenewShorlUrl, handeRedirectlUrl, handeGetAnalytics };
+export { handelgeneratenewShorlUrl, handeRedirectlUrl, handeGetAnalytics ,handeGetAllUrl};
