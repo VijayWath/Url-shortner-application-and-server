@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home Page</title>
+  </head>
+  <body>
+    <% if (locals.error) { %>
+    <h6><%= error %></h6>
+    <% } %> <% if (locals.id) { %>
+    <p>Url Generated : http://localhost:3001/url/<%= id %></p>
+    <% } %>
+    <h2>URL shortning service</h2>
+    <div>
+      <form action="/url" method="post">
+        <label for="">Enter URL</label>
+        <input name="url" type="text" placeholder="www.google.com" />
+        <button type="submit">Generate</button>
+      </form>
+    </div>
+  </body>
+</html>
