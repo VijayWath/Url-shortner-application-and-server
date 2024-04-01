@@ -14,7 +14,9 @@ async function handelgeneratenewShorlUrl(req, res) {
     });
     return res.status(200).json({ id: shortId });
   } catch (error) {
-    return res.status(500).json({ error: "something went wrong while creating Url" });
+    return res
+      .status(500)
+      .json({ error: "something went wrong while creating Url" });
   }
 }
 
@@ -40,17 +42,25 @@ async function handeRedirectlUrl(req, res) {
 }
 
 async function handeGetAnalytics(req, res) {
-try {
-  const shortId = `${req.params.id}`;
-  const data = await Url.findOne({ shortId });
-  if(data.visitHistory == []){
-    return res.status(400).json({ error:"empty list" });
+  try {
+    const shortId = `${req.params.id}`;
+    const data = await Url.findOne({ shortId });
+    return res.status(200).json({ visitHistory: data.visitHistory });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ error: "error while getting analytics" });
   }
-  return res.status(200).json({ visitHistory: data.visitHistory });
-} catch (error) {
-  console.log(error)
-  return res.status(500).json({ error:"error while getting analytics" });
 }
+
+async function handeGetAllUrl(req, res) {
+  try {
+    const uid = req.user.id;
+    const data = await Url.find({ userId: uid });
+    return res.status(200).json({ urlList: data });
+  } catch (error) {
+    console.log(error)
+    return res.status(500).json({ error:"Something went wrong while getting all urls" });
+  }
 }
 
 export { handelgeneratenewShorlUrl, handeRedirectlUrl, handeGetAnalytics };
