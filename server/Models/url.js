@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import User from "./user.js";
 
 const urlSchema = new mongoose.Schema(
   {
@@ -9,7 +10,7 @@ const urlSchema = new mongoose.Schema(
     },
     userId:{
       type: mongoose.Schema.Types.ObjectId,
-      ref:api-users
+      ref:User
     }
     ,
     redirectUrl: {

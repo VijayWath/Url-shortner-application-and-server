@@ -1,14 +1,14 @@
 import express from "express";
 import {
-  handelAPIgeneratenewShorlUrl,
-  handeAPIRedirectlUrl,
-  handeAPIGetAnalytics,
-} from "../controllers/apiControllers.js";
+  handelgeneratenewShorlUrl,
+  handeRedirectlUrl,
+  handeGetAnalytics,
+} from "../controllers/urlControllers.js";
 
 const apiRoute = express.Router();
 
-apiRoute.get("/:id", handeAPIRedirectlUrl);
-apiRoute.post("/", handelAPIgeneratenewShorlUrl);
-apiRoute.get("/analytics/:id", handeAPIGetAnalytics);
+apiRoute.get("/:id", handeRedirectlUrl);
+apiRoute.post("/", handelgeneratenewShorlUrl);
+apiRoute.get("/analytics/:id", handeGetAnalytics);
 
 export default apiRoute;

@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import { jwtPasswordKey } from "..secerets/secerates.js";
+import { jwtPasswordKey } from "../secerets/secerates.js";
 
 async function checkForAuth(req, res, next) {
   try {
@@ -21,17 +21,19 @@ async function checkForAuth(req, res, next) {
 
 async function createToken(user){
   try{
-    const {name,email,password} = user;
+    const {_id,name,email} = user;
 
     const  payload = {
+      id:_id,
       name:name,
-      email:email,
-      password:password
+      email:email
     }
+
     const token = jwt.sign(payload,jwtPasswordKey);
+
     return token
   }catch(e){
-
+    console.log("error while creating token:"+error)
   }
 }
 
