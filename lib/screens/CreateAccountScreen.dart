@@ -22,7 +22,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          "Login",
+          "Create Account",
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
       ),
@@ -46,7 +46,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
           },
           builder: (context, state) {
             if (state is AuthLoading) {
-              return Center(
+              return const Center(
                 child: CircularProgressIndicator(),
               );
             }
@@ -73,7 +73,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                           );
                     },
                     icon: const Icon(Icons.account_balance_wallet_rounded),
-                    label: const Text("Login"),
+                    label: const Text("Create Account"),
                   )
                 ],
               ),

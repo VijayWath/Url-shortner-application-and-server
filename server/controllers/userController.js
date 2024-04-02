@@ -1,6 +1,7 @@
 import User from "../Models/user.js";
 
-import { createHmac } from "node:crypto";
+import { createHmac } from "crypto";
+
 import { HashSecrete } from "../secerets/secerates.js";
 
 import { createToken } from "../middlewares/auth.js";
@@ -8,7 +9,7 @@ import { createToken } from "../middlewares/auth.js";
 async function handelUserLogin(req, res) {
   try {
     const email = req.body.email;
-    const password = req.body.password;
+    const password = String(req.body.password);
 
     const hashedPAssword = createHmac("sha256", HashSecrete)
       .update(password)
@@ -21,7 +22,8 @@ async function handelUserLogin(req, res) {
     if (user.password != hashedPAssword) {
       return res.status(404).json({ error: "Invalid password" });
     }
-    const token = createToken(user);
+    const token =await createToken(user);
+    console.log(token)
     return res.status(200).json({ user: user, token: token });
   } catch (error) {
     console.log(error);
@@ -30,9 +32,9 @@ async function handelUserLogin(req, res) {
 }
 
 async function handelUserSignUp(req, res) {
-  const email = req.body.email;
-  const password = req.body.password;
-  const name = req.body.name;
+  const email = String(req.body.email);
+  const password = String(req.body.password);
+  const name = String(req.body.name);
 
   const hashedPAssword = createHmac("sha256", HashSecrete)
     .update(password)
@@ -47,7 +49,7 @@ async function handelUserSignUp(req, res) {
         password: hashedPAssword,
       });
 
-      const token = createToken(user);
+      const token =await createToken(user);
 
       return res.status(200).json({ user: user, token: token });
     } else {

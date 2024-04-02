@@ -1,11 +1,15 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
+import 'package:url_shortner_service/models/responseModel.dart';
+import 'package:url_shortner_service/models/userModel.dart';
+import 'package:url_shortner_service/respositories/UserRepository.dart';
 
 part 'auth_bloc_event.dart';
 part 'auth_bloc_state.dart';
 
 class AuthBlocBloc extends Bloc<AuthBlocEvent, AuthBlocState> {
-  AuthBlocBloc() : super(AuthBlocInitial()) {
+  final UserRepository userRepository;
+  AuthBlocBloc(this.userRepository) : super(AuthBlocInitial()) {
     on<AuthCreateAccountRequested>(_onAuthCreateAccountRequested);
     on<AuthLoginRequested>(_onAuthLoginRequested);
   }
@@ -19,10 +23,17 @@ class AuthBlocBloc extends Bloc<AuthBlocEvent, AuthBlocState> {
         emit(AuthFailuare(error: "Lenth <6"));
         return;
       }
+
       emit(AuthLoading());
 
-      await Future.delayed(const Duration(seconds: 1));
-      emit(AuthCreateAccountSuccess(uid: "$email - $password - $name"));
+      ResponseModel res =
+          await userRepository.userCreateAccount(email, password, name);
+
+      if (res.data == null) {
+        emit(AuthFailuare(error: res.error.toString()));
+      }
+
+      emit(AuthCreateAccountSuccess(user: res.data));
     } catch (e) {
       emit(
         AuthFailuare(
@@ -42,8 +53,14 @@ class AuthBlocBloc extends Bloc<AuthBlocEvent, AuthBlocState> {
         return;
       }
 
-      await Future.delayed(const Duration(seconds: 1));
-      emit(AuthCreateAccountSuccess(uid: "$email - $password"));
+      ResponseModel res = await userRepository.userLogin(email, password);
+
+      if (res.data == null) {
+        emit(AuthFailuare(error: res.error.toString()));
+        return;
+      }
+
+      emit(AuthLoginSuccess(user: res.data));
     } catch (e) {
       emit(
         AuthFailuare(

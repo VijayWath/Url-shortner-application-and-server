@@ -23,7 +23,7 @@ async function handelgeneratenewShorlUrl(req, res) {
 async function handeRedirectlUrl(req, res) {
   console.log("redirecting");
   const shortId = `${req.params.id}`;
-  const ip = `${req.body.ip}`;
+  const ip = req.socket.remoteAddress
   try {
     const entry = await Url.findOneAndUpdate(
       {

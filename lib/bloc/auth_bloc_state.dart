@@ -7,7 +7,11 @@ final class AuthLoading extends AuthBlocState {}
 
 final class AuthBlocInitial extends AuthBlocState {}
 
-final class AuthLoginSuccess extends AuthBlocState {}
+final class AuthLoginSuccess extends AuthBlocState {
+  final UserModel user;
+
+  AuthLoginSuccess({required this.user});
+}
 
 final class AuthFailuare extends AuthBlocState {
   final String error;
@@ -16,7 +20,7 @@ final class AuthFailuare extends AuthBlocState {
 }
 
 final class AuthCreateAccountSuccess extends AuthBlocState {
-  final String uid;
+  final UserModel user;
 
-  AuthCreateAccountSuccess({required this.uid});
+  AuthCreateAccountSuccess({required this.user});
 }

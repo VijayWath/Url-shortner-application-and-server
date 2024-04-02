@@ -16,7 +16,7 @@ class _HomeScreenState extends State<HomeScreen> {
         context.watch<AuthBlocBloc>().state as AuthCreateAccountSuccess;
     return Center(
         child: Container(
-      child: Text(authState.uid),
+      child: Text("s"),
     ));
   }
 }
