@@ -13,11 +13,14 @@ class UserRepository {
   ) async {
     try {
       var _response = await http.post(
-          Uri.parse(
-            "$host/user/login",
-          ),
-          headers: {'Content-Type': 'application/json; charset=UTF-8'},
-          body: jsonEncode({'email': email, 'password': password}));
+        Uri.parse(
+          "$host/user/login",
+        ),
+        headers: {'Content-Type': 'application/json; charset=UTF-8'},
+        body: jsonEncode(
+          {'email': email, 'password': password},
+        ),
+      );
 
       if (_response.statusCode == 404) {
         String error = jsonDecode(_response.body)['error'];

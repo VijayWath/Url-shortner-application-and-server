@@ -1,10 +1,12 @@
 import 'package:url_shortner_service/bloc/auth_bloc_bloc.dart';
+import 'package:url_shortner_service/bloc_observer.dart';
 import 'package:url_shortner_service/respositories/UserRepository.dart';
 import 'package:url_shortner_service/screens/CreateAccountScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main() {
+  Bloc.observer = StateBlocObserver();
   runApp(const MyApp());
 }
 
@@ -26,6 +28,7 @@ class MyApp extends StatelessWidget {
           ),
         ],
         child: MaterialApp(
+          debugShowCheckedModeBanner: false,
           title: 'URL SERVICE',
           theme: ThemeData(
             colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),

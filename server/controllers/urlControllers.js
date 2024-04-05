@@ -6,7 +6,7 @@ async function handelgeneratenewShorlUrl(req, res) {
     const shortId = nanoid(8);
     if (!req.body.url)
       return res.status(400).json({ error: " url is required" });
-    await Url.create({
+   const url = await Url.create({
       shortId: shortId,
       redirectUrl: req.body.url,
       visitHistory: [],
