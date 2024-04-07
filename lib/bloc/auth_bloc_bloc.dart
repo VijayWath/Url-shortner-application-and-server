@@ -33,7 +33,7 @@ class AuthBlocBloc extends Bloc<AuthBlocEvent, AuthBlocState> {
         emit(AuthFailuare(error: res.error.toString()));
       }
 
-      emit(AuthCreateAccountSuccess(user: res.data));
+      emit(AuthSuccess(user: res.data));
     } catch (e) {
       emit(
         AuthFailuare(
@@ -60,7 +60,7 @@ class AuthBlocBloc extends Bloc<AuthBlocEvent, AuthBlocState> {
         return;
       }
 
-      emit(AuthLoginSuccess(user: res.data));
+      emit(AuthSuccess(user: res.data));
     } catch (e) {
       emit(
         AuthFailuare(

@@ -9,6 +9,8 @@ final class AuthLoginRequested extends AuthBlocEvent {
   AuthLoginRequested({required this.email, required this.password});
 }
 
+final class CheckForToken extends AuthBlocEvent {}
+
 final class AuthCreateAccountRequested extends AuthBlocEvent {
   final String email;
   final String name;

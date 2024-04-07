@@ -57,7 +57,7 @@ class UserRepository {
 
   Future<ResponseModel> userCreateAccount(
       String email, String password, String name) async {
-    print("awdhauuuu$email-----$name------------$password");
+    print("$email-----$name------------$password");
     final body = jsonEncode({
       'email': email.toString(),
       'password': password.toString(),

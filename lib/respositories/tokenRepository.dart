@@ -9,6 +9,7 @@ class TokenRepository {
   Future<String?> getToken() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String? token = preferences.getString('x-auth-token');
+    print("Repo ::: $token");
     return token;
   }
 

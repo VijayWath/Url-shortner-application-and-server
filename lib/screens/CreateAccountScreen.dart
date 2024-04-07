@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:url_shortner_service/bloc/auth_bloc_bloc.dart';
+import 'package:url_shortner_service/screens/Login.dart';
 import 'package:url_shortner_service/screens/homeScreen.dart';
 import 'package:url_shortner_service/widgets/AuthInputFeild.dart';
 
@@ -36,7 +37,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                 ),
               );
             }
-            if (state is AuthCreateAccountSuccess) {
+            if (state is AuthSuccess) {
               Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (ctx) => HomeScreen(),
@@ -60,7 +61,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                   const SizedBox(
                     height: 10,
                   ),
-                  TextButton.icon(
+                  ElevatedButton.icon(
                     style: TextButton.styleFrom(
                         textStyle: const TextStyle(fontSize: 20)),
                     onPressed: () {
@@ -74,7 +75,17 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                     },
                     icon: const Icon(Icons.account_balance_wallet_rounded),
                     label: const Text("Create Account"),
-                  )
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => LoginScreen(),
+                        ),
+                      );
+                    },
+                    child: const Text("Already have and accounr"),
+                  ),
                 ],
               ),
             );

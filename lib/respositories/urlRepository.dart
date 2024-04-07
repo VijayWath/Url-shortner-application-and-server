@@ -1,9 +1,11 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:url_shortner_service/models/historyModel.dart';
 import 'package:url_shortner_service/models/responseModel.dart';
 import 'package:http/http.dart' as http;
 import 'package:url_shortner_service/models/urlModel.dart';
+import 'package:url_shortner_service/models/userModel.dart';
 import 'package:url_shortner_service/respositories/tokenRepository.dart';
 
 class UrlRepository {
@@ -80,8 +82,9 @@ class UrlRepository {
     }
   }
 
-  Future<ResponseModel> getAllurls(token) async {
+  Future<ResponseModel> getAllurls() async {
     try {
+      final token = await TokenRepository().getToken();
       final _response = await http.get(
         Uri.parse("$host/api/user/allurl"),
         headers: {
@@ -111,6 +114,37 @@ class UrlRepository {
       }
       return ResponseModel(
           data: null, error: "Something went wrong in creating url");
+    } catch (e) {
+      return ResponseModel(
+          data: null, error: "Something catched in getting all urls");
+    }
+  }
+
+  Future<ResponseModel> getUser(token) async {
+    try {
+      final _response = await http.get(
+        Uri.parse("$host/"),
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+          'x-auth-token': '$token'
+        },
+      );
+      if (_response.statusCode == 200) {
+        final res = jsonDecode(_response.body)["user"];
+        UserModel user =
+            UserModel(name: res["name"], email: res["email"], uid: res["_id"]);
+        return ResponseModel(data: user, error: null);
+      }
+      if (_response.statusCode == 500) {
+        return ResponseModel(
+            data: null, error: "Something went wrong in server");
+      }
+      if (_response.statusCode == 400) {
+        String error = jsonDecode(_response.body)["error"];
+        return ResponseModel(data: null, error: error.toString());
+      }
+      return ResponseModel(
+          data: null, error: "Something went wrong in getting user");
     } catch (e) {
       return ResponseModel(
           data: null, error: "Something catched in getting all urls");

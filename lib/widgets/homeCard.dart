@@ -1,0 +1,48 @@
+import 'package:flutter/material.dart';
+
+class HomeCard extends StatelessWidget {
+  const HomeCard({
+    required this.urlController,
+    required this.onPressed,
+    super.key,
+  });
+
+  final TextEditingController urlController;
+  final VoidCallback onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      color: Theme.of(context).colorScheme.primaryContainer,
+      elevation: 2,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextField(
+                controller: urlController,
+                decoration: InputDecoration(
+                  label: const Text("Enter your looooong url"),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 5,
+            ),
+            Align(
+              child: ElevatedButton(
+                onPressed: onPressed,
+                child: const Text("Create"),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}

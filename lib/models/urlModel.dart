@@ -1,5 +1,3 @@
-import 'package:url_shortner_service/models/historyModel.dart';
-
 class UrlModel {
   final String shortId;
   final String redirectUrl;

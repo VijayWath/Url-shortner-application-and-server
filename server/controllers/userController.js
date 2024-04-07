@@ -61,4 +61,18 @@ async function handelUserSignUp(req, res) {
   }
 }
 
-export { handelUserLogin, handelUserSignUp };
+async function handelGetUser(req,res){
+  try {
+    const uid = req.user.id
+    const user = await User.findById({_id : uid})
+    if(!user){
+    return  res.status(400).json({error:"user nor found"})
+    }
+    return res.status(200).json({user:user})
+  } catch (error) {
+    return  res.status(400).json({error:"Something went wrong getting user"})
+  }
+
+}
+
+export { handelUserLogin, handelUserSignUp,handelGetUser };
