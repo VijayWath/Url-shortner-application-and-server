@@ -16,7 +16,6 @@ class UrlShortnerBloc extends Bloc<UrlShortnerEvent, UrlShortnerState> {
   UrlShortnerBloc(this.urlRepository, this.tokenRepository)
       : super(UrlShortnerInitial()) {
     on<UrlHomeInitialRequested>(_onUrlHomeInitialRequested);
-    on<UrlCreateRequest>(_onUrlCreateRequest);
     on<UrlHistoryRequested>(_onUrlHistoryRequested);
     on<GetAllUrlsRequested>(_onGetAllUrlsRequested);
   }
@@ -31,23 +30,12 @@ class UrlShortnerBloc extends Bloc<UrlShortnerEvent, UrlShortnerState> {
     ResponseModel _response = await UrlRepository().getUser(token);
     if (_response.data == null) {
       emit(
-        UrlFailuar(error: "urlfauluare"),
+        AuthTokenNotFound(),
       );
       return;
     }
     UserModel user = _response.data;
     emit(UrlShortnerHome(user: user));
-  }
-
-  void _onUrlCreateRequest(event, emit) async {
-    emit(UrlLoading());
-    ResponseModel _response = await urlRepository.createNewUrl(
-        orignalUrl: event.orignalUrl, uid: event.user.id);
-    if (_response.data == null) {
-      emit(UrlFailuar(error: _response.error!));
-      return;
-    }
-    emit(UrlCreateSuccess(newUrl: _response.data));
   }
 
   void _onUrlHistoryRequested(event, emit) async {

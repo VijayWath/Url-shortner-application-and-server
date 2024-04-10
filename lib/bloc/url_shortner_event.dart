@@ -11,13 +11,6 @@ final class UrlHistoryRequested extends UrlShortnerEvent {
   UrlHistoryRequested({required this.shortId});
 }
 
-final class UrlCreateRequest extends UrlShortnerEvent {
-  final UserModel user;
-  final String orignalUrl;
-
-  UrlCreateRequest({required this.user, required this.orignalUrl});
-}
-
 final class OpenUrlRequested extends UrlShortnerEvent {}
 
 final class GetAllUrlsRequested extends UrlShortnerEvent {}

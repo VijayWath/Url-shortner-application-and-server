@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:url_shortner_service/bloc/url_shortner_bloc.dart';
 
 class HomeCard extends StatelessWidget {
   const HomeCard({
+    // required this.state,
     required this.urlController,
     required this.onPressed,
     super.key,
   });
 
+  // final UrlShortnerState state;
   final TextEditingController urlController;
   final VoidCallback onPressed;
 

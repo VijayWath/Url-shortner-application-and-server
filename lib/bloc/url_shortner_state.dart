@@ -25,7 +25,11 @@ final class UrlCreateSuccess extends UrlShortnerState {
   UrlCreateSuccess({required this.newUrl});
 }
 
+final class CreatingUrl extends UrlShortnerState {}
+
 final class GetAllUrlsSuccess extends UrlShortnerState {}
+
+final class UrlCreationLoading extends UrlShortnerState {}
 
 final class AuthTokenNotFound extends UrlShortnerState {}
 

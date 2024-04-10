@@ -13,15 +13,19 @@ class UrlRepository {
   Future<ResponseModel> createNewUrl({uid, orignalUrl}) async {
     try {
       final token = await TokenRepository().getToken();
+      print("getting new url");
       final _response = await http.post(
         Uri.parse("$host/api/"),
+        body: jsonEncode({'url': '$orignalUrl'}),
         headers: {
           'Content-Type': 'application/json; charset=UTF-8',
           'x-auth-token': '$token'
         },
       );
+      print("got response");
       if (_response.statusCode == 200) {
         String shortId = jsonDecode(_response.body)["id"];
+        print(shortId);
         UrlModel url = UrlModel(
           shortId: shortId.toString(),
           redirectUrl: orignalUrl.toString(),

@@ -3,9 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:url_shortner_service/bloc/auth_bloc_bloc.dart';
 import 'package:url_shortner_service/bloc/url_shortner_bloc.dart';
 import 'package:url_shortner_service/models/userModel.dart';
+import 'package:url_shortner_service/respositories/urlRepository.dart';
 import 'package:url_shortner_service/screens/Login.dart';
 import 'package:url_shortner_service/widgets/homeCard.dart';
 import 'package:url_shortner_service/widgets/recentUrls.dart';
+import 'package:url_shortner_service/widgets/urlCreatedBottomSheet.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -21,13 +23,25 @@ class _HomeScreenState extends State<HomeScreen> {
 
     context.read<UrlShortnerBloc>().add(UrlHomeInitialRequested());
 
-    void onPressed(UserModel user) {
-      context.read<UrlShortnerBloc>().add(
-            UrlCreateRequest(
-              user: user,
-              orignalUrl: urlController.text.trim(),
-            ),
-          );
+    var isLoading = false;
+
+    void onCreateUrll(uid) async {
+      final _response = await UrlRepository().createNewUrl(
+        orignalUrl: urlController.text,
+        uid: uid,
+      );
+      if (_response.data != null) {
+        UrlCreatedBottomSheet(url: _response.data.shortId).show(context);
+      }
+      if (_response.error != null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(_response.error!),
+          ),
+        );
+      }
+      print("showing model Sheet");
+      UrlCreatedBottomSheet(url: uid);
     }
 
     return BlocConsumer<UrlShortnerBloc, UrlShortnerState>(
@@ -36,6 +50,13 @@ class _HomeScreenState extends State<HomeScreen> {
           Navigator.of(context).push(
             MaterialPageRoute(
               builder: (context) => LoginScreen(),
+            ),
+          );
+        }
+        if (state is UrlFailuar) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(state.error),
             ),
           );
         }
@@ -57,7 +78,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       padding: const EdgeInsets.all(8.0),
                       child: HomeCard(
                           onPressed: () {
-                            onPressed(state.user);
+                            onCreateUrll((state as UrlShortnerHome).user.uid);
                           },
                           urlController: urlController),
                     ),
@@ -69,7 +90,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 .colorScheme
                                 .secondaryContainer,
                             borderRadius: BorderRadius.circular(20)),
-                        height: 300,
+                        height: 500,
                         child: RecentUrls(),
                       ),
                     ),
@@ -82,11 +103,10 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
           );
-        } else {
-          return const Center(
-            child: SingleChildScrollView(),
-          );
         }
+        return Center(
+          child: CircularProgressIndicator(),
+        );
       },
     );
   }

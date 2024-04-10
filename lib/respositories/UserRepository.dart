@@ -64,12 +64,13 @@ class UserRepository {
       'name': name.toString()
     });
     try {
+      print("getting response");
       var _response = await http.post(
         Uri.parse("$host/user/signup"),
         headers: {'Content-Type': 'application/json; charset=UTF-8'},
         body: body,
       );
-
+      print("got response");
       if (_response.statusCode == 200) {
         final user = jsonDecode(_response.body)['user'];
         final token = jsonDecode(_response.body)['token'];
@@ -83,6 +84,8 @@ class UserRepository {
         await TokenRepository().setToken(token.toString());
         return ResponseModel(data: currUser, error: null);
       } else {
+        print(
+            ":::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::");
         String error = jsonDecode(_response.body)['error'];
         return ResponseModel(data: null, error: error);
       }

@@ -5,14 +5,17 @@ class RecentUrls extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-        itemCount: 6,
-        itemBuilder: (context, int) {
-          return ListTile(
-            contentPadding: EdgeInsets.all(5),
-            title: Text("orignal url"),
-            subtitle: Text("short url"),
-          );
-        });
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: ListView.builder(
+          itemCount: 6,
+          itemBuilder: (context, int) {
+            return ListTile(
+              contentPadding: EdgeInsets.all(5),
+              title: Text("orignal url"),
+              subtitle: Text("short url"),
+            );
+          }),
+    );
   }
 }
