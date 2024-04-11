@@ -10,7 +10,6 @@ class StateBlocObserver extends BlocObserver {
 
   @override
   void onChange(BlocBase bloc, Change change) {
-    print("onChange");
     super.onChange(bloc, change);
     debugPrint('$bloc.runtimeType $change');
   }

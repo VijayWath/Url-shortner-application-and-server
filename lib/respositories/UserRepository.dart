@@ -84,8 +84,6 @@ class UserRepository {
         await TokenRepository().setToken(token.toString());
         return ResponseModel(data: currUser, error: null);
       } else {
-        print(
-            ":::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::");
         String error = jsonDecode(_response.body)['error'];
         return ResponseModel(data: null, error: error);
       }

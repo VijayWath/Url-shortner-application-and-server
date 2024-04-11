@@ -24,8 +24,6 @@ class AuthBlocBloc extends Bloc<AuthBlocEvent, AuthBlocState> {
         return;
       }
 
-      emit(AuthLoading());
-
       ResponseModel res =
           await userRepository.userCreateAccount(email, password, name);
 

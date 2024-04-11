@@ -22,15 +22,18 @@ class UrlCreatedBottomSheet {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
                   Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(50),
-                          border: Border.all(
-                              color:
-                                  Theme.of(context).colorScheme.onBackground)),
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 15, vertical: 20),
-                      child: Text('http://localhost:3000/$url',
-                          style: const TextStyle(fontSize: 15))),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(50),
+                      border: Border.all(
+                          color: Theme.of(context).colorScheme.onBackground),
+                    ),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 15, vertical: 20),
+                    child: Text(
+                      'http://localhost:3000/$url',
+                      style: const TextStyle(fontSize: 15),
+                    ),
+                  ),
                   const SizedBox(
                     height: 30,
                   ),
@@ -40,9 +43,9 @@ class UrlCreatedBottomSheet {
                       padding: const EdgeInsets.all(8.0),
                       child: ElevatedButton(
                           onPressed: () {
-                            Clipboard.setData(ClipboardData(
-                                    text: 'http://localhost:3000/$url'))
-                                .then((_) {
+                            Clipboard.setData(
+                              ClipboardData(text: 'http://localhost:3000/$url'),
+                            ).then((_) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
                                   content: Text('Copied to your clipboard !'),

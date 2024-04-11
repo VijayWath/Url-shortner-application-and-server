@@ -7,8 +7,9 @@ final class UrlShortnerInitial extends UrlShortnerState {}
 
 final class UrlShortnerHome extends UrlShortnerState {
   final UserModel user;
+  final List<UrlModel> list;
 
-  UrlShortnerHome({required this.user});
+  UrlShortnerHome({required this.user, required this.list});
 }
 
 final class UrlFailuar extends UrlShortnerState {
@@ -25,12 +26,13 @@ final class UrlCreateSuccess extends UrlShortnerState {
   UrlCreateSuccess({required this.newUrl});
 }
 
-final class CreatingUrl extends UrlShortnerState {}
+final class GetAllUrlsSuccess extends UrlShortnerState {
+  final List<UrlModel> list;
+  final UserModel user;
 
-final class GetAllUrlsSuccess extends UrlShortnerState {}
+  GetAllUrlsSuccess({required this.list, required this.user});
+}
 
 final class UrlCreationLoading extends UrlShortnerState {}
 
 final class AuthTokenNotFound extends UrlShortnerState {}
-
-final class UrlLoading extends UrlShortnerState {}

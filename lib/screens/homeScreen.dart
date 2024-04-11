@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:url_shortner_service/bloc/auth_bloc_bloc.dart';
 import 'package:url_shortner_service/bloc/url_shortner_bloc.dart';
 import 'package:url_shortner_service/models/userModel.dart';
 import 'package:url_shortner_service/respositories/urlRepository.dart';
+import 'package:url_shortner_service/screens/AllUrlScreen.dart';
 import 'package:url_shortner_service/screens/Login.dart';
 import 'package:url_shortner_service/widgets/homeCard.dart';
 import 'package:url_shortner_service/widgets/recentUrls.dart';
@@ -23,15 +23,22 @@ class _HomeScreenState extends State<HomeScreen> {
 
     context.read<UrlShortnerBloc>().add(UrlHomeInitialRequested());
 
-    var isLoading = false;
+    void onViewAll(UserModel user) {
+      context.read<UrlShortnerBloc>().add(
+            GetAllUrlsRequested(user: user),
+          );
+    }
 
-    void onCreateUrll(uid) async {
+    void onCreateUrll(UserModel user) async {
       final _response = await UrlRepository().createNewUrl(
         orignalUrl: urlController.text,
-        uid: uid,
+        uid: user.uid,
       );
       if (_response.data != null) {
         UrlCreatedBottomSheet(url: _response.data.shortId).show(context);
+        context.read<UrlShortnerBloc>().add(
+              UrlReload(user: user),
+            );
       }
       if (_response.error != null) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -41,11 +48,18 @@ class _HomeScreenState extends State<HomeScreen> {
         );
       }
       print("showing model Sheet");
-      UrlCreatedBottomSheet(url: uid);
     }
 
     return BlocConsumer<UrlShortnerBloc, UrlShortnerState>(
       listener: (context, state) {
+        if (state is GetAllUrlsSuccess) {
+          Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(
+              builder: (context) => AllUrlScreen(),
+            ),
+            ModalRoute.withName('/history'),
+          );
+        }
         if (state is AuthTokenNotFound) {
           Navigator.of(context).push(
             MaterialPageRoute(
@@ -62,11 +76,6 @@ class _HomeScreenState extends State<HomeScreen> {
         }
       },
       builder: (context, state) {
-        if (State is UrlLoading) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        }
         if (state is UrlShortnerHome) {
           return Scaffold(
             appBar: AppBar(title: const Text("Home")),
@@ -78,7 +87,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       padding: const EdgeInsets.all(8.0),
                       child: HomeCard(
                           onPressed: () {
-                            onCreateUrll((state as UrlShortnerHome).user.uid);
+                            onCreateUrll((state as UrlShortnerHome).user);
                           },
                           urlController: urlController),
                     ),
@@ -91,12 +100,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                 .secondaryContainer,
                             borderRadius: BorderRadius.circular(20)),
                         height: 500,
-                        child: RecentUrls(),
+                        child: RecentUrls(list: state.list),
                       ),
                     ),
                     TextButton(
                       child: Text("view All"),
-                      onPressed: () {},
+                      onPressed: () {
+                        onViewAll(state.user);
+                      },
                     )
                   ],
                 ),

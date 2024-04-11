@@ -44,11 +44,6 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
             }
           },
           builder: (context, state) {
-            if (state is AuthLoading) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }
             return SingleChildScrollView(
               child: Column(
                 children: [
